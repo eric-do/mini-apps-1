@@ -1,5 +1,3 @@
-var results = [];
-currentPlayer = 'x';
 const X = 'x';
 const O = 'o';
 const EMPTY = '----';
@@ -13,9 +11,30 @@ class Game {
     this.displayStatus(`${this.currentPlayer}'s turn`);
   }
 
+  /* Views */
   displayStatus(string) {
     var status = document.getElementById('status-ticker');
     status.textContent = string;
+  }
+
+  declareWinner(player) {
+    this.results.forEach(row => {
+      row.forEach(button => {
+        button.disabled = true;
+      });  
+    });
+    console.log(`${player} is the winner!`);
+    this.displayStatus(`${player} is the winner!`);
+  }
+  
+  declareDraw() {
+    this.results.forEach(row => {
+      row.forEach(button => {
+        button.disabled = true;
+      });  
+    });
+    console.log(`Game is a draw!`);
+    this.displayStatus(`Game is a draw!`);
   }
 
   buildTable(n) {
@@ -45,14 +64,20 @@ class Game {
 
   addResetListener() {
     var reset = document.getElementById("reset");
-    reset.addEventListener("click", () => {
-      this.currentPlayer = X;
-      this.displayStatus(`${this.currentPlayer}'s turn`);
-      this.results.forEach(row => {
-        row.forEach(cell => {
-          cell.textContent = "----";
-          cell.disabled = false;
-        });
+    reset.addEventListener("click", this.reset.bind(this));
+  }
+
+  reset() {
+    this.currentPlayer = X;
+    this.displayStatus(`${this.currentPlayer}'s turn`);
+    this.resetResults();
+  }
+
+  resetResults() {
+    this.results.forEach(row => {
+      row.forEach(cell => {
+        cell.textContent = EMPTY;
+        cell.disabled = false;
       });
     });
   }
@@ -65,7 +90,7 @@ class Game {
     // Return button
     var button = document.createElement("button");
     button.class = "game-button";
-    button.setAttribute("style", "height: 50px; width: 50px")
+    button.setAttribute("style", "font-size: 20px; height: 100px; width: 100px")
     button.addEventListener("click", () => {
       button.textContent = this.currentPlayer;
       button.disabled = true;
@@ -79,26 +104,6 @@ class Game {
     });
     button.textContent = "----";
     return button;
-  }
-
-  declareWinner(player) {
-    this.results.forEach(row => {
-      row.forEach(button => {
-        button.disabled = true;
-      });  
-    });
-    console.log(`${player} is the winner!`);
-    this.displayStatus(`${player} is the winner!`);
-  }
-  
-  declareDraw() {
-    this.results.forEach(row => {
-      row.forEach(button => {
-        button.disabled = true;
-      });  
-    });
-    console.log(`Game is a draw!`);
-    this.displayStatus(`Game is a draw!`);
   }
 
   checkResults(player) {
@@ -201,6 +206,7 @@ class Game {
   }
 }
 
-var game = new Game(3);
+var size = window.prompt(`Enter your board size`, 3);
+var game = new Game(isNaN(parseInt(size)) ? 3 : size);
 
 console.log(`I'm working here!`);

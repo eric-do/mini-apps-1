@@ -1,0 +1,12 @@
+#status-ticker {
+  color: green;
+  font: 16px arial;
+  align-content: center;
+  padding: 10px 7px;
+}
+
+#reset {
+  margin: 10px 3px;
+  padding: 10px;
+  width: 100px;
+}
