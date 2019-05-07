@@ -10,8 +10,13 @@ class Game {
     this.currentPlayer = X;
     this.buildTable(n);
     this.addResetListener();
+    this.displayStatus(`${this.currentPlayer}'s turn`);
   }
-    
+
+  displayStatus(string) {
+    var status = document.getElementById('status-ticker');
+    status.textContent = string;
+  }
 
   buildTable(n) {
     var table = document.getElementById("game-table");
@@ -35,11 +40,14 @@ class Game {
 
   switchPlayer() {
     this.currentPlayer = this.currentPlayer === X ? O : X;
+    this.displayStatus(`${this.currentPlayer}'s turn`);
   }
 
   addResetListener() {
     var reset = document.getElementById("reset");
     reset.addEventListener("click", () => {
+      this.currentPlayer = X;
+      this.displayStatus(`${this.currentPlayer}'s turn`);
       this.results.forEach(row => {
         row.forEach(cell => {
           cell.textContent = "----";
@@ -80,6 +88,7 @@ class Game {
       });  
     });
     console.log(`${player} is the winner!`);
+    this.displayStatus(`${player} is the winner!`);
   }
   
   declareDraw() {
@@ -89,6 +98,7 @@ class Game {
       });  
     });
     console.log(`Game is a draw!`);
+    this.displayStatus(`Game is a draw!`);
   }
 
   checkResults(player) {
