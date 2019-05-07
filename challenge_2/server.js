@@ -8,7 +8,7 @@ app.set('port', port);
 
 /* Middleware for app */
 app.use(express.static('client'));
-app.use(parser.urlencoded({ extended: true }));
+  app.use(parser.urlencoded({ extended: true }));
 app.use(parser.json());
 
 const ATTRIBUTES = ["firstName","lastName","county","city","role","sales"];
@@ -22,12 +22,14 @@ app.get('/', (req, res) => {
 app.post('/upload_json', (req, res) => {
   // Delegate parsing to convertToCSV
   // Pass callback to convertToCSV, which responds with CSV to client
+  console.log(req.form);
   convertToCSV(req, res, (err, data) => {
     if (err) { console.log(err); }
     //res.writeHead(200);
     console.log(data);
     fs.writeFile('new_csv.csv', data)
     .then(() => {
+      console.log(__dirname + '/new_csv.csv');
       res.sendFile(__dirname + '/new_csv.csv', (err) => {
         if (err) { 
           console.log(err); 
@@ -66,7 +68,7 @@ var convertToCSV = (req, res, callback) => {
   var values = flatArray.map(employee => {
     var tempArr = [];
     ATTRIBUTES.forEach(attribute => {
-      tempArr.push(employee[attribute]);
+      tempArr.push(employee[attribute] || ' ');
     });
     return tempArr.join(',');
   });

@@ -1,6 +1,6 @@
 <html>
   <head>
-
+    <link rel="stylesheet" type="text/css" href="./style.css">
   </head>
   <body>
    <form name="json-submit" action="/upload_json" method="post">
@@ -8,6 +8,10 @@
     <textarea name="json">
 
      </textarea>
+     <input type="submit" value="Submit">
+   </form>
+   <form name="json-upload" action="/upload_json" method="post" enctype="multipart/form-data">
+     <input id="file-select" type="file" value="Submit" name="json" accept=".json">
      <input type="submit" value="Submit">
    </form>
     <script src='./app.js'></script>
