@@ -33,6 +33,10 @@ class Game {
     }
   }
 
+  switchPlayer() {
+    this.currentPlayer = this.currentPlayer === X ? O : X;
+  }
+
   addResetListener() {
     var reset = document.getElementById("reset");
     reset.addEventListener("click", () => {
@@ -55,14 +59,14 @@ class Game {
     button.class = "game-button";
     button.setAttribute("style", "height: 50px; width: 50px")
     button.addEventListener("click", () => {
-      button.textContent = currentPlayer;
+      button.textContent = this.currentPlayer;
       button.disabled = true;
-      if (this.checkResults(currentPlayer) === true){
-        this.declareWinner(currentPlayer);
+      if (this.checkResults(this.currentPlayer) === true){
+        this.declareWinner(this.currentPlayer);
       } else if (this.isDraw() === true) {
         this.declareDraw();
       } else {
-        currentPlayer = currentPlayer === X ? O : X;
+        this.switchPlayer();
       }
     });
     button.textContent = "----";
