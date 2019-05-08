@@ -19,7 +19,8 @@ class App extends React.Component {
     super(props)
     this.state = {
       hasPurchased: false,
-      currentView: HOMEPAGE_VIEW
+      currentView: HOMEPAGE_VIEW,
+      user: {}
     }
   }
 
@@ -28,6 +29,21 @@ class App extends React.Component {
     var currentView = this.state.currentView;
     currentView++;
     this.setView(currentView);
+  }
+
+  onSubmit(e) {
+    e.preventDefault();
+  }
+
+  handleChange(e) {
+    e.preventDefault();
+    var name = e.target.id;
+    var value = e.target.value;
+    var user = Object.assign(this.state.user);
+    user[name] = value;
+    this.setState({
+      user: user
+    });
   }
 
   postData(data) {
@@ -56,19 +72,19 @@ class App extends React.Component {
     }
 
     if (this.state.currentView === REGISTRATION_VEW) {
-      return (<Registration onClick={this.nextViewHandler.bind(this)} />)
+      return (<Registration onClick={this.nextViewHandler.bind(this)} onChange={this.handleChange.bind(this)}/>)
     }
 
     if (this.state.currentView === ADDRESS_VIEW) {
-      return (<Address onClick={this.nextViewHandler.bind(this)} />)
+      return (<Address onClick={this.nextViewHandler.bind(this)} onChange={this.handleChange.bind(this)}/>)
     }
   
     if (this.state.currentView === CREDIT_VIEW) {
-      return (<CreditCard onClick={this.nextViewHandler.bind(this)} />)
+      return (<CreditCard onClick={this.nextViewHandler.bind(this)} onChange={this.handleChange.bind(this)}/>)
     }
   
     if (this.state.currentView === CONFIRMATION_VIEW) {
-      return (<Confirmation onClick={this.resetView.bind(this)}/>)
+      return (<Confirmation onClick={this.resetView.bind(this)} onChange={this.handleChange.bind(this)}/>)
     }
   }
 }
@@ -80,25 +96,28 @@ var Homepage = (props) => (
   </div>
 )
 
-var Registration = (props) => (
+var Registration = (props) => {
+  return (
   <div id="registration">
     <h1>Registration</h1>
-    <input id="name" type="text" placeholder="Name"></input>
-    <input id="email" type="text" placeholder="Email"></input>
-    <input id="password" type="text" placeholder="Password"></input>
-    <button onClick={(e) => props.onClick(e)}>Next</button>
-  </div>
-)
+    <form onSubmit={props.handleSubmit}>
+      <input id="name" type="text" placeholder="Name" onChange={(e) => props.onChange(e)}></input>
+      <input id="email" type="text" placeholder="Email" onChange={(e) => props.onChange(e)}></input>
+      <input id="password" type="text" placeholder="Password" onChange={(e) => props.onChange(e)}></input>
+      <button onClick={(e) => props.onClick(e)}>Next</button>
+    </form>
+  </div>);
+}
 
 var Address = (props) => (
   <div id="address">
     <h1>Address</h1>
-    <input id="line1" type="text" placeholder="Line 1"></input>
-    <input id="line2" type="text" placeholder="Line 2"></input>
-    <input id="city" type="text" placeholder="City"></input>
-    <input id="state" type="text" placeholder="State"></input>
-    <input id="zip" type="text" placeholder="Zip Code"></input>
-    <input id="phone" type="text" placeholder="Phone number, e.g. (555)555-5555"></input>
+    <input id="line1" type="text" placeholder="Line 1" onChange={(e) => props.onChange(e)}></input>
+    <input id="line2" type="text" placeholder="Line 2" onChange={(e) => props.onChange(e)}></input>
+    <input id="city" type="text" placeholder="City" onChange={(e) => props.onChange(e)}></input>
+    <input id="state" type="text" placeholder="State" onChange={(e) => props.onChange(e)}></input>
+    <input id="zip" type="text" placeholder="Zip Code" onChange={(e) => props.onChange(e)}></input>
+    <input id="phone" type="text" placeholder="Phone number, e.g. (555)555-5555" onChange={(e) => props.onChange(e)}></input>
     <button onClick={(e) => props.onClick(e)}>Next</button>
   </div>
 )
