@@ -1,0 +1,10 @@
+body {
+  background: lightblue;
+}
+
+input {
+  display: block;
+  width: 300px;
+  height: 30px;
+  margin: 5px 5px;
+}
