@@ -9,3 +9,12 @@ textarea {
 form {
   align-content: top;
 }
+
+body {
+  background: lightblue;
+  font-family: arial;
+}
+
+#csv-output {
+  font-family: 'Courier New', Courier, monospace;
+}

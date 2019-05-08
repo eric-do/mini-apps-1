@@ -1,0 +1,26 @@
+{
+  "name": "challenge_3",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js",
+    "build": "babel . --out-dir compiled --presets=react --ignore=node_modules,compiled --source-maps inline --watch"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-plugin-react": "1.0.0",
+    "babel-preset-react": "^6.5.0",
+    "express": "^4.16.4",
+    "jquery": "^2.2.1",
+    "live-server": "^1.2.1",
+    "lodash": "^4.6.1",
+    "mysql": "^2.17.1",
+    "nodemon": "^1.19.0",
+    "react": "^0.14.9",
+    "react-dom": "^0.14.7"
+  }
+}

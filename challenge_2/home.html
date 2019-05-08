@@ -3,24 +3,20 @@
     <link rel="stylesheet" type="text/css" href="./style.css">
   </head>
   <body>
-   <form id="text-form" name="json-submit" action="/upload_json" method="post">
+   <form name="json-submit" action="/upload_json" method="post">
     <label for="json">Enter your JSON</label>
-    <textarea id="json-text" name="json">
+    <textarea name="json">
 
      </textarea>
-     <input id="submit-text" type="submit" value="Submit">
+     <input type="submit" value="Submit">
    </form>
    <form name="json-upload" action="/upload_json" method="post" enctype="multipart/form-data">
      <input id="file-select" type="file" value="Submit" name="json" accept=".json">
      <input type="submit" value="Submit">
    </form>
    <div id="csv-output">
-      
+      firstName,lastName,county,city,role,sales<br>Joshie,Wyattson,San Mateo,San Mateo,Broker,1000000<br>Beth Jr.,Johnson,San Mateo,Pacifica,Manager,2900000<br>Smitty,Won,San Mateo,Redwood City,Sales Person,4800000<br>Allen,Price,San Mateo,Burlingame,Sales Person,2500000<br>Beth,Johnson,San Francisco,San Francisco,Broker/Sales Person,7500000
    </div>
-   <script
-    src="https://code.jquery.com/jquery-3.4.1.js"
-    integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-    crossorigin="anonymous"></script>
     <script src='./app.js'></script>
   </body>
 </html>
