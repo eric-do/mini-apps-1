@@ -80,3 +80,47 @@ Include React in your index.html so it's available globally.
     <script type="module" src="compiled/client/app.js"></script>
   </body>
 ```
+
+# Gotchas
+## POSTS
+Make sure your ajax call includes 'http://' even if you're using localhost, e.g. 
+```javascript
+ postData() {
+    $.ajax({
+      url: 'http://localhost:3000',
+      method: 'POST', 
+      data: JSON.stringify(this.state.user),
+      success: () => console.log('success!'),
+      error: () => console.log('error')
+    });
+  }
+```
+
+You MUST have urlencoded enabled for your bodyparser if you're going to be sending JSON over POST requests.
+
+User enters data -> Data is saved to object -> Object is sent via POST with no stringify method -> Object is received and parsed on the server.
+
+```javascript
+postData() {
+  $.ajax({
+    url: 'http://localhost:3000',
+    method: 'POST', 
+    data: {user : this.state.user},
+    success: () => console.log('success!'),
+    error: () => console.log('error')
+  });
+}
+```
+
+```javascript
+app.use(parser.json());
+app.use(parser.urlencoded({ extended: true }));
+app.post('/', (req, res) => {
+  console.log(req.body.user);
+});
+```
+
+Output: 
+```json
+{ name: 'test', email: 'test', password: 'test' }
+```

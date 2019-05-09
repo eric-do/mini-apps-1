@@ -26,12 +26,13 @@ class App extends React.Component {
 
   nextViewHandler(e) {
     e.preventDefault();
+    this.postData();
     var currentView = this.state.currentView;
     currentView++;
     this.setView(currentView);
   }
 
-  onSubmit(e) {
+  handleSubmit(e) {
     e.preventDefault();
   }
 
@@ -46,11 +47,13 @@ class App extends React.Component {
     });
   }
 
-  postData(data) {
+  postData() {
     $.ajax({
-      url: 'localhost:3000',
+      url: 'http://localhost:3000',
       method: 'POST', 
-      data: JSON.stringify(data)
+      data: {user : this.state.user},
+      success: () => console.log('success!'),
+      error: () => console.log('error')
     });
   }
 
@@ -125,10 +128,10 @@ var Address = (props) => (
 var CreditCard = (props) => (
   <div id="address">
     <h1>Credit Card</h1>
-    <input id="creditcard" type="text" placeholder="Credit card number"></input>
-    <input id="expiration" type="text" placeholder="Expiration date"></input>
-    <input id="cvv" type="text" placeholder="CVV"></input>
-    <input id="billing-zip" type="text" placeholder="Billing zip code"></input>
+    <input id="creditcard" type="text" placeholder="Credit card number" onChange={(e) => props.onChange(e)}></input>
+    <input id="expiration" type="text" placeholder="Expiration date" onChange={(e) => props.onChange(e)}></input>
+    <input id="cvv" type="text" placeholder="CVV" onChange={(e) => props.onChange(e)}></input>
+    <input id="billing-zip" type="text" placeholder="Billing zip code" onChange={(e) => props.onChange(e)}></input>
     <button onClick={(e) => props.onClick(e)}>Next</button>
   </div>
 )
