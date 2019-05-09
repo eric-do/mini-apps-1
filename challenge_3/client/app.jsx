@@ -104,7 +104,7 @@ class App extends React.Component {
     }
   
     if (this.state.currentView === CONFIRMATION_VIEW) {
-      return (<Confirmation onClick={this.resetView.bind(this)} onChange={this.handleChange.bind(this)}/>)
+      return (<Confirmation user={this.state.user} onClick={this.resetView.bind(this)} onChange={this.handleChange.bind(this)}/>)
     }
   }
 }
@@ -156,6 +156,11 @@ var CreditCard = (props) => (
 var Confirmation = (props) => (
   <div id="confirmation">
     <h1>Confirmation</h1>
+    {
+      Object.keys(props.user).map(key => (
+        <div>{key} : {props.user[key]}</div>
+      ))
+    }
     <button onClick={(e) => props.onClick(e)}>Purchase</button>
   </div>
 )
