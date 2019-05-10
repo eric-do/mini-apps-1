@@ -11,7 +11,7 @@ const GameBoard = (props) =>  (
             <tr> 
               {
                 row.map((col, vindex) => (
-                  <GamePiece onClick={props.onClick} x={hindex} y={vindex}/>
+                  <GamePiece currentPlayer={props.currentPlayer} onClick={props.onClick} val={props.board[hindex][vindex]}  x={hindex} y={vindex}/>
                 ))
               }
             </tr>
