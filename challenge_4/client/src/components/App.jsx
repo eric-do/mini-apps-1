@@ -36,26 +36,125 @@ class App extends React.Component {
   updateStatus(row, col) {
     // Inputs: row and col where the recent piece dropped
     // Return WIN, DRAW, INPROGRESS
-
-    
+    var gameStatus = this.checkHorizontal(row) || this.checkVertical(col) 
+                  || this.checkDiagonalMajor(row,col) || this.checkDiagonalMinor(row, col);
+    if (gameStatus !== WIN) {
+      if (this.countEmpty() === 0) {
+        gameStatus = DRAW;
+      }
+    }
+    this.setState({
+      gameStatus: gameStatus
+    });
+    //this.setState(state => {gameStatus: gameStatus});
+    return gameStatus;
   }
 
-  checkHorizontal(row,col) {
-    var found = false;
+  countEmpty() {
+    // Return number of empty cells
     var counter = 0;
     var board = this.state.board;
     
+    board.forEach(row => {
+      row.forEach(cell => {
+        if (cell === EMPTY) {
+          counter++;
+        }
+      });
+    });
+
+    return counter;
+  }
+
+  checkHorizontal(row) {
+    var board = this.state.board;
+    var counter = 0;
+    
     for (var i = 0; i < board.length; i++) {
-      if (board[i] === this.state.currentPlayer) {
+      if (board[row][i] === this.state.currentPlayer) {
         counter++;
       } else {
         counter = 0;
       }
       if (counter === 4) {
-        return true;
+        return WIN;
+      }
+    } 
+    return INPROGRESS;
+  }
+
+  checkVertical(col) {
+    var board = this.state.board;
+    var currentPlayer = this.state.currentPlayer;
+    var counter = 0;
+    
+    for (var i = 0; i < board.length; i++) {
+      if (board[i][col] === currentPlayer) {
+        counter++;
+      } else {
+        counter = 0;
+      }
+      if (counter === 4) {
+        return WIN;
       }
     }
-    return false;
+    return INPROGRESS;
+  }
+
+  checkDiagonalMajor(row, col) {
+    // Check diagonal from bottom left to top right
+    // First check everything to bottom left of position
+    // Then check everything from top right of position
+    // If total consecutive pieces is 4, return WIN
+    // Else return INPROGRESS
+    var left = 0;
+    var right = 0;
+    var board = this.state.board;
+    var currentPlayer = this.state.currentPlayer;
+    var currRow = row;
+    var currCol = col;
+    
+    while (currRow <= board.length - 1 && currCol >= 0 && board[currRow][currCol] === currentPlayer) {
+      left++;
+      currRow++;
+      currCol--;
+    }
+
+    currRow = row - 1;
+    currCol = col + 1;
+    while (currCol <= board.length - 1 && currRow >= 0 && board[currRow][currCol] === currentPlayer) {
+      right++;
+      currRow--;
+      currCol++;
+    }
+    if (left + right >= 4) { return WIN; }
+    return INPROGRESS;
+  }
+
+  checkDiagonalMinor(row, col) {
+    var left = 0;
+    var right = 0;
+    var board = this.state.board;
+    var currentPlayer = this.state.currentPlayer;
+    var currRow = row;
+    var currCol = col;
+
+    while (currRow >= 0 && currCol >= 0 && board[currRow][currCol] === currentPlayer) {
+      left++;
+      currRow--;
+      currCol--;
+    }
+
+    currRow = row + 1;
+    currCol = col + 1;
+
+    while (currRow <= board.length - 1 && currCol <= board.length - 1 && board[currRow][currCol] === currentPlayer) {
+      right++;
+      currRow++;
+      currCol++;
+    }
+    if (left + right >= 4) { return WIN; }
+    return INPROGRESS;
   }
 
   updateBoard(row, col) {
@@ -109,9 +208,16 @@ class App extends React.Component {
       var row = 0;
       while (this.state.board[row + 1] && this.state.board[row + 1][col] === EMPTY && row < this.state.board.length) {
         row++;
+        
       }
+  
       this.updateBoard(row, col);
-      this.switchPlayer();
+      this.updateStatus(row, col);
+      
+      if (this.state.gameStatus === INPROGRESS) {
+        this.switchPlayer();
+      }
+      
     }
   }
 
