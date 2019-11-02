@@ -24,6 +24,6 @@
     "nodemon": "^1.19.0",
     "react": "^0.14.9",
     "react-dom": "^0.14.7",
-    "sequelize": "^5.8.5"
+    "sequelize": "^5.15.1"
   }
 }
