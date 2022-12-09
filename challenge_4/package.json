@@ -9,7 +9,7 @@
     "react-dev": "webpack -d --watch"
   },
   "dependencies": {
-    "express": "^4.16.4",
+    "express": "^4.18.2",
     "nodemon": "^1.19.0",
     "react": "^0.14.9",
     "react-dom": "^0.14.7"
